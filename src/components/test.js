@@ -113,9 +113,9 @@ export const loading =  function(dom,errorFn = function() {}) {
         descriptor.value = async function(...args) {
             try {
                  let tagert = document.querySelector(dom);
-                 loadingInstance = Loading.service({ tagert });
-                 await oldValue.apply(this, args)
-                 loadingInstance
+                loadingInstance = Loading.service({ tagert });
+                await oldValue.apply(this, args)
+                loadingInstance.close()
             } catch (error) {
                 errorFn && errorFn.call(this, error, ...args)
                 console.error(error)

@@ -10,18 +10,63 @@
     <el-button @click="on">on</el-button>
     <el-button @click="emit">emit</el-button>
     <el-button @click="off">off</el-button>
+    <el-button @click="loadData">loadData</el-button>
+
+    <el-table
+            :data="tableData"
+            style="width: 100%">
+      <el-table-column
+              prop="date"
+              label="日期"
+              width="180">
+      </el-table-column>
+      <el-table-column
+              prop="name"
+              label="姓名"
+              width="180">
+      </el-table-column>
+      <el-table-column
+              prop="address"
+              label="地址">
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-  import {confirmation,before,after,around,time,setTimeOut,debounces} from "./test"
+  import {confirmation,before,after,around,time,setTimeOut,debounces,loading} from "./test"
   import {on,emit,off} from "./bus"
 export default {
   name: 'HelloWorld',
+    data(){
+      return{
+          tableData: [{
+              date: '2016-05-03',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+              date: '2016-05-02',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+              date: '2016-05-04',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1518 弄'
+          }],
+      }
+    },
   props: {
     msg: String
   },
     methods: {
+       @loading(".el-table")
+        loadData(){
+              return  new Promise(resolve =>{
+                    setTimeout(()=>{
+                        resolve("loadData")
+                    },1000)
+           })
+        },
         @confirmation("删除文件")
         deleteFile() {
             console.log(1);
@@ -62,6 +107,18 @@ export default {
         @off("a")
         off(){
             console.log("off");
+        },
+        on1(){
+            // this.$on('a', ()=>{
+            //     console.log(arg);
+            // })
+        },
+        emit1(){
+            // this.$emit('a', 2)
+        },
+        off1(){
+           // this.$off("a")
+           //  console.log("off");
         }
     },
     created(){
